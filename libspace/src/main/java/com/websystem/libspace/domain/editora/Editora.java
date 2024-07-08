@@ -47,4 +47,19 @@ public class Editora {
 
     }
 
+    public void update(EditoraUpdateDTO updateDTO) {
+
+        if(updateDTO.nome() != null)
+            this.nome = updateDTO.nome();
+
+        if(updateDTO.cep() != null)
+            this.cep = updateDTO.cep();
+
+        if(updateDTO.telefone() != null)
+            this.telefone = updateDTO.telefone();
+
+        if(updateDTO.email() != null)
+            this.email = updateDTO.email();
+
+    }
 }
