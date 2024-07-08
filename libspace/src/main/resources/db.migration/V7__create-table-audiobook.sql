@@ -1,6 +1,6 @@
 -- Create table livro_audiobook
 CREATE TABLE livro_audiobook (
-    id_livro BIGSERIAL PRIMARY KEY,
+    id_livro BIGINT PRIMARY KEY,
     tamanho_arquivo SMALLINT NOT NULL,
     formato_arquivo VARCHAR(40) NOT NULL,
     narrador VARCHAR(120) NOT NULL,

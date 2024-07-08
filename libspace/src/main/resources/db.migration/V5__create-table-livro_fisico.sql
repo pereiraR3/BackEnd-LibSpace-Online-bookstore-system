@@ -1,6 +1,6 @@
 -- Create table livro_fisico
 CREATE TABLE livro_fisico (
-    id_livro BIGSERIAL PRIMARY KEY,
+    id_livro BIGINT PRIMARY KEY,
     numero_de_paginas SMALLINT NOT NULL,
     peso SMALLINT NOT NULL,
     tipo_capa VARCHAR(60) NOT NULL,

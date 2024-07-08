@@ -21,7 +21,7 @@ public record LivroResponseDTO(
     public LivroResponseDTO(Livro dadosLivro){
 
         this(
-                dadosLivro.getId_editora(),
+                dadosLivro.getEditora().getId(),
                 dadosLivro.getPreco(),
                 dadosLivro.getTitulo(),
                 dadosLivro.getQuantidade(),

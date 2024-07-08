@@ -36,7 +36,7 @@ public class LivroFisico extends Livro{
     @Column(name = "dimensao_profundidade", nullable = false)
     Short dimensao_profundidade;
 
-    public LivroFisico(LivroFisicoRequestDTO body, Editora editora){
+    public LivroFisico(LivroFisicoRequestDTO body, Editora editora, Boolean statusCreateLivro){
 
         super(new LivroRequestDTO(
                 body.id_editora(),
@@ -56,6 +56,8 @@ public class LivroFisico extends Livro{
         this.dimensao_profundidade = body.dimensao_profundidade();
 
     }
+
+
 
 }
 
