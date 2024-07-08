@@ -1,11 +1,10 @@
 package com.websystem.libspace.domain.livro;
 
-
 import com.websystem.libspace.domain.editora.Editora;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "Livro")
+@Entity
 @Table(name = "livro")
 @Getter
 @Setter
@@ -17,16 +16,17 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "id_editora", nullable = false)
-    private Long id_editora;
+    @ManyToOne
+    @JoinColumn(name = "id_editora", nullable = false)
+    private Editora editora;
 
-    @Column(name = "preco", nullable = false)
+    @Column(nullable = false)
     private Double preco;
 
-    @Column(name = "titulo", nullable = false)
+    @Column(nullable = false)
     private String titulo;
 
-    @Column(name = "quantidade", nullable = false)
+    @Column(nullable = false)
     private Short quantidade;
 
     @Column(name = "autor_nome", nullable = false)
@@ -35,19 +35,16 @@ public class Livro {
     @Column(name = "ano_publicacao", nullable = false)
     private Short ano_publicacao;
 
-    @Column(name = "capa_url", nullable = true)
+    @Column(name = "capa_url")
     private String capa_url;
 
     public Livro(LivroRequestDTO body, Editora editora){
-
-        this.id_editora = editora.getId();
+        this.editora = editora;
         this.preco = body.preco();
         this.titulo = body.titulo();
         this.quantidade = body.quantidade();
         this.autor_nome = body.autor_nome();
         this.ano_publicacao = body.ano_publicacao();
-        this.capa_url = body.capa_url(); // -> Mudar
-
+        this.capa_url = body.capa_url();
     }
-
 }
