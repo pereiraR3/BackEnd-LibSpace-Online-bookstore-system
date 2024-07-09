@@ -1,5 +1,7 @@
 package com.websystem.libspace.domain.livro;
 
+import com.websystem.libspace.domain.livro_fisico.LivroFisicoResponseDTO;
+
 public record LivroListeningDTO(
 
         Long id_editora,
@@ -14,7 +16,9 @@ public record LivroListeningDTO(
 
         Short ano_publicacao,
 
-        String capa_url
+        String capa_url,
+
+        LivroFisicoResponseDTO formatoFisico
 
 ) {
 }

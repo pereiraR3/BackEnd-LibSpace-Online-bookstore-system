@@ -48,4 +48,20 @@ public class Livro {
         this.ano_publicacao = body.ano_publicacao();
         this.capa_url = body.capa_url();
     }
+
+    public void update(LivroUpdateDTO updateDTO) {
+
+        if(updateDTO.preco() != null)
+            this.preco = updateDTO.preco();
+
+        if(updateDTO.quantidade() != null)
+            this.quantidade = updateDTO.quantidade();
+
+        if(updateDTO.autor_nome() != null)
+            this.autor_nome = updateDTO.autor_nome();
+
+        if(updateDTO.ano_publicacao() != null)
+            this.ano_publicacao = updateDTO.ano_publicacao();
+
+    }
 }

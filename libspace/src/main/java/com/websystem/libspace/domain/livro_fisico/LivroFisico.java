@@ -4,6 +4,7 @@ package com.websystem.libspace.domain.livro_fisico;
 import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
 import com.websystem.libspace.domain.livro.LivroRequestDTO;
+import com.websystem.libspace.domain.livro.LivroUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class LivroFisico extends Livro{
     @Column(name = "dimensao_profundidade", nullable = false)
     Short dimensao_profundidade;
 
-    public LivroFisico(LivroFisicoRequestDTO body, Editora editora, Boolean statusCreateLivro){
+    public LivroFisico(LivroFisicoRequestDTO body, Editora editora){
 
         super(new LivroRequestDTO(
                 body.id_editora(),
@@ -57,7 +58,27 @@ public class LivroFisico extends Livro{
 
     }
 
+    public void update(LivroFisicoUpdateDTO updateDTO){
 
+        if(updateDTO.numero_de_paginas() != null)
+            this.numero_de_paginas = updateDTO.numero_de_paginas();
+
+        if(updateDTO.peso() != null)
+            this.peso = updateDTO.peso();
+
+        if(updateDTO.tipo_capa() != null)
+            this.tipo_capa = updateDTO.tipo_capa();
+
+        if(updateDTO.dimensao_altura() != null)
+            this.dimensao_altura = updateDTO.dimensao_altura();
+
+        if(updateDTO.dimensao_largura() != null)
+            this.dimensao_altura = updateDTO.dimensao_altura();
+
+        if(updateDTO.dimensao_profundidade() != null)
+            this.dimensao_profundidade = updateDTO.dimensao_profundidade();
+
+    }
 
 }
 
