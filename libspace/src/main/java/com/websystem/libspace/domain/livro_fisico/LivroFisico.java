@@ -17,37 +17,38 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LivroFisico extends Livro{
+public class LivroFisico{
+
+    @Id
+    @Column(name = "id_livro")
+    private Long id;
+
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "id_livro")
+    private Livro livro;
 
     @Column(name = "numero_de_paginas", nullable = false)
-    Short numero_de_paginas;
+    private Short numero_de_paginas;
 
     @Column(name = "peso", nullable = false)
-    Short peso;
+    private Short peso;
 
     @Column(name = "tipo_capa", nullable = false)
-    String tipo_capa;
+    private String tipo_capa;
 
     @Column(name = "dimensao_altura", nullable = false)
-    Short dimensao_altura;
+    private Short dimensao_altura;
 
     @Column(name = "dimensao_largura", nullable = false)
-    Short dimensao_largura;
+    private Short dimensao_largura;
 
     @Column(name = "dimensao_profundidade", nullable = false)
-    Short dimensao_profundidade;
+    private Short dimensao_profundidade;
 
-    public LivroFisico(LivroFisicoRequestDTO body, Editora editora){
+    public LivroFisico(LivroFisicoRequestDTO body, Livro livro){
 
-        super(new LivroRequestDTO(
-                body.id_editora(),
-                body.preco(),
-                body.titulo(),
-                body.quantidade(),
-                body.autor_nome(),
-                body.ano_publicacao(),
-                body.capa_url()
-        ), editora);
+        this.livro = livro;
 
         this.numero_de_paginas = body.numero_de_paginas();
         this.peso = body.peso();
