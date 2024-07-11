@@ -1,6 +1,5 @@
 package com.websystem.libspace.domain.livro_fisico;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 

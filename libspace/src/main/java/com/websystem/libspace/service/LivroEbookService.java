@@ -1,10 +1,10 @@
 package com.websystem.libspace.service;
 
-import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
 import com.websystem.libspace.domain.livro_ebook.LivroEbook;
 import com.websystem.libspace.domain.livro_ebook.LivroEbookRequestDTO;
 import com.websystem.libspace.domain.livro_ebook.LivroEbookResponseDTO;
+import com.websystem.libspace.domain.livro_ebook.LivroEbookUpdateDTO;
 import com.websystem.libspace.repository.LivroEbookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +46,14 @@ public class LivroEbookService {
     public List<LivroEbookResponseDTO> findAll(){
 
         return livroEbookRepository.findAll().stream().map(LivroEbookResponseDTO::new).toList();
+
+    }
+
+
+    public void update(LivroEbookUpdateDTO body){
+
+        LivroEbook livroEbook = findById(body.id_livro());
+        livroEbook.update(body);
 
     }
 

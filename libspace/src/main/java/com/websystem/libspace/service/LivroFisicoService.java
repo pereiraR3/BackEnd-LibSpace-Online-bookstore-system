@@ -1,8 +1,6 @@
 package com.websystem.libspace.service;
 
-import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro.LivroRequestDTO;
 import com.websystem.libspace.domain.livro_fisico.LivroFisico;
 import com.websystem.libspace.domain.livro_fisico.LivroFisicoRequestDTO;
 import com.websystem.libspace.domain.livro_fisico.LivroFisicoResponseDTO;
