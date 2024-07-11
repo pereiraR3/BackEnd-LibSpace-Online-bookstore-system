@@ -1,6 +1,8 @@
 package com.websystem.libspace.service;
 
+import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
+import com.websystem.libspace.domain.livro.LivroRequestDTO;
 import com.websystem.libspace.domain.livro.LivroResponseDTO;
 import com.websystem.libspace.domain.livro.LivroUpdateDTO;
 import com.websystem.libspace.repository.LivroRepository;
@@ -17,6 +19,21 @@ public class LivroService {
 
     @Autowired
     private LivroRepository livroRepository;
+
+    @Autowired
+    private EditoraService editoraService;
+
+    public LivroResponseDTO create(LivroRequestDTO body){
+
+        Editora editora = editoraService.findById(body.id_editora());
+
+        Livro livro = new Livro(body, editora);
+
+        livroRepository.save(livro);
+
+        return new LivroResponseDTO(livro);
+
+    }
 
     public Livro findById(Long id){
 

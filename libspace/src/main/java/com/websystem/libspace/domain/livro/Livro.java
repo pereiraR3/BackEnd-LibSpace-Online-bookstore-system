@@ -1,10 +1,12 @@
 package com.websystem.libspace.domain.livro;
 
 import com.websystem.libspace.domain.editora.Editora;
+import com.websystem.libspace.domain.livro_ebook.LivroEbook;
+import com.websystem.libspace.domain.livro_fisico.LivroFisico;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "Livro")
 @Table(name = "livro")
 @Getter
 @Setter
@@ -38,6 +40,12 @@ public class Livro {
 
     @Column(name = "capa_url")
     private String capa_url;
+
+    @OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
+    private LivroEbook livroEbook;
+
+    @OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
+    private LivroFisico livroFisico;
 
     public Livro(LivroRequestDTO body, Editora editora){
         this.editora = editora;

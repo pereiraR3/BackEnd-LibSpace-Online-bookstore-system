@@ -17,50 +17,35 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LivroEbook extends Livro{
+public class LivroEbook{
 
-    @Column(name = "numero_de_paginas", nullable = false)
-    Short numero_de_paginas;
+    @Id
+    @Column(name = "id_livro")
+    private Long id;
 
-    @Column(name = "peso", nullable = false)
-    Short peso;
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "id_livro")
+    private Livro livro;
 
-    @Column(name = "tipo_capa", nullable = false)
-    String tipo_capa;
+    @Column(name = "tamanho_arquivo", nullable = false)
+    private Short tamanho_arquivo;
 
-    @Column(name = "dimensao_altura", nullable = false)
-    Short dimensao_altura;
+    @Column(name = "formato_arquivo", nullable = false)
+    private String formato_arquivo;
 
-    @Column(name = "dimensao_largura", nullable = false)
-    Short dimensao_largura;
+    public LivroEbook(LivroEbookRequestDTO body, Livro livro){
 
-    @Column(name = "dimensao_profundidade", nullable = false)
-    Short dimensao_profundidade;
+        this.livro = livro;
 
-    public LivroEbook(LivroEbookRequestDTO body, Editora editora){
-
-        super(new LivroRequestDTO(
-                body.id_editora(),
-                body.preco(),
-                body.titulo(),
-                body.quantidade(),
-                body.autor_nome(),
-                body.ano_publicacao(),
-                body.capa_url()
-        ), editora);
-
-        this.numero_de_paginas = body.numero_de_paginas();
-        this.peso = body.peso();
-        this.tipo_capa = body.tipo_capa();
-        this.dimensao_altura = body.dimensao_altura();
-        this.dimensao_largura = body.dimensao_largura();
-        this.dimensao_profundidade = body.dimensao_profundidade();
+        this.tamanho_arquivo = body.tamanho_arquivo();
+        this.formato_arquivo = body.formato_arquivo();
 
     }
 
-    public void update(LivroEbookUpdateDTO updateDTO){
-
-    }
+    /**
+     * Não precisa de update, pois essa é uma informação elaborada pelo front ou back
+     */
 
 }
 

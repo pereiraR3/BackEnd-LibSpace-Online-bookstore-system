@@ -22,13 +22,13 @@ public class LivroFisicoService {
     private LivroFisicoRepository livroFisicoRepository;
 
     @Autowired
-    private EditoraService editoraService;
+    private LivroService livroService;
 
     public LivroFisicoResponseDTO create(LivroFisicoRequestDTO body){
 
-        Editora editora = editoraService.findById(body.id_editora());
+        Livro livro = livroService.findById(body.id());
 
-        LivroFisico livroFisico = new LivroFisico(body, editora);
+        LivroFisico livroFisico = new LivroFisico(body, livro);
 
         livroFisicoRepository.save(livroFisico);
 

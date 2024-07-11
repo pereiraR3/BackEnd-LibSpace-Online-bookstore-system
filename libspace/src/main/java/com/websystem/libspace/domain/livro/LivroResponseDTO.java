@@ -2,6 +2,8 @@ package com.websystem.libspace.domain.livro;
 
 public record LivroResponseDTO(
 
+        Long id,
+
         Long id_editora,
 
         Double preco,
@@ -21,6 +23,7 @@ public record LivroResponseDTO(
     public LivroResponseDTO(Livro dadosLivro){
 
         this(
+                dadosLivro.getId(),
                 dadosLivro.getEditora().getId(),
                 dadosLivro.getPreco(),
                 dadosLivro.getTitulo(),
