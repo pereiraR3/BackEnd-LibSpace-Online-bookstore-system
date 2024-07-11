@@ -4,7 +4,7 @@ public record LivroFisicoResponseDTO(
 
         // -> Relativo a classe pai (Livro)
 
-        Long id,
+        Long id_livro,
 
         // -> Relativo a classe filha (LivroFisico)
 
