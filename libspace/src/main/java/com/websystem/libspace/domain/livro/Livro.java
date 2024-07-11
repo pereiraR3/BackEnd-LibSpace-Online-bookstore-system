@@ -6,7 +6,7 @@ import com.websystem.libspace.domain.livro_fisico.LivroFisico;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "Livro")
+@Entity
 @Table(name = "livro")
 @Getter
 @Setter
