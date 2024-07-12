@@ -2,6 +2,7 @@ package com.websystem.libspace.controller;
 
 import com.websystem.libspace.domain.livro_ebook.LivroEbookRequestDTO;
 import com.websystem.libspace.domain.livro_ebook.LivroEbookResponseDTO;
+import com.websystem.libspace.domain.livro_ebook.LivroEbookUpdateDTO;
 import com.websystem.libspace.service.LivroEbookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,15 @@ public class LivroEbookController {
 
         return ResponseEntity.ok().body(livroEbookResponseDTOList);
 
+    }
+
+    @PutMapping("/update")
+    @Transactional
+    public ResponseEntity<?> update(@RequestBody @Valid LivroEbookUpdateDTO body){
+
+        livroEbookService.update(body);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

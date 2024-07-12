@@ -1,17 +1,13 @@
 package com.websystem.libspace.domain.livro_fisico;
 
-
-import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro.LivroRequestDTO;
-import com.websystem.libspace.domain.livro.LivroUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "LivroFisico")
+@Entity
 @Table(name = "livro_fisico")
 @Setter
 @Getter

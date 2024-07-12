@@ -49,23 +49,15 @@ public class LivroService {
 
     public void update(LivroUpdateDTO updateDTO){
 
-        try{
-            Livro livro = findById(updateDTO.id());
-            livro.update(updateDTO);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        Livro livro = findById(updateDTO.id());
+        livro.update(updateDTO);
 
     }
 
     public void deleteById(Long id){
 
-        try{
-            Livro livro = findById(id);
-            livroRepository.deleteById(id);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        Livro livro = findById(id);
+        livroRepository.deleteById(id);
 
     }
 

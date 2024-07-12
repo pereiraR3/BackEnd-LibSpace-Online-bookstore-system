@@ -1,17 +1,13 @@
 package com.websystem.libspace.domain.livro_ebook;
 
-
-import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro.LivroRequestDTO;
-import com.websystem.libspace.domain.livro.LivroUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "LivroEbook")
+@Entity
 @Table(name = "livro_ebook")
 @Setter
 @Getter
@@ -43,9 +39,15 @@ public class LivroEbook{
 
     }
 
-    /**
-     * Não precisa de update, pois essa é uma informação elaborada pelo front ou back
-     */
+    public void update(LivroEbookUpdateDTO updateDTO) {
+
+        if(updateDTO.formato_arquivo() != null)
+            this.formato_arquivo = updateDTO.formato_arquivo();
+
+        if(updateDTO.tamanho_arquivo() != null)
+            this.formato_arquivo = updateDTO.formato_arquivo();
+
+    }
 
 }
 

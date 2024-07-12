@@ -27,7 +27,7 @@ public class LivroFisicoController {
 
         LivroFisicoResponseDTO livroFisicoResponseDTO = livroFisicoService.create(body);
 
-        var uri = uriComponentsBuilder.path("/create/{id}").buildAndExpand(livroFisicoResponseDTO.id()).toUri();
+        var uri = uriComponentsBuilder.path("/create/{id}").buildAndExpand(livroFisicoResponseDTO.id_livro()).toUri();
 
         return ResponseEntity.created(uri).body(livroFisicoResponseDTO);
 

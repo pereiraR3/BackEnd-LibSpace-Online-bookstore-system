@@ -1,13 +1,12 @@
 package com.websystem.libspace.domain.editora;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "Editora")
+@Entity
 @Table(name = "editora")
 @Getter
 @Setter
