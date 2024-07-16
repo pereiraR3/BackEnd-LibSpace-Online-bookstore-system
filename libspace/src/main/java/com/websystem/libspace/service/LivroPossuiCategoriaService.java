@@ -1,16 +1,10 @@
 package com.websystem.libspace.service;
 
 import com.websystem.libspace.domain.categoria.Categoria;
-import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro.LivroRequestDTO;
-import com.websystem.libspace.domain.livro.LivroResponseDTO;
-import com.websystem.libspace.domain.livro.LivroUpdateDTO;
 import com.websystem.libspace.domain.livro_possui_categoria.LivroPossuiCategoria;
 import com.websystem.libspace.domain.livro_possui_categoria.LivroPossuiCategoriaResponseDTO;
-import com.websystem.libspace.repository.LivroAudiobookRepository;
 import com.websystem.libspace.repository.LivroPossuiCategoriaRepository;
-import com.websystem.libspace.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,13 +39,13 @@ public class LivroPossuiCategoriaService {
 
     }
 
-    public List<LivroPossuiCategoria> findByLivroId(Long idLivro){
+    public List<LivroPossuiCategoriaResponseDTO> findByLivroId(Long idLivro){
 
         try{
 
             livroService.findById(idLivro);
 
-            return livroPossuiCategoriaRepository.findByLivroId(idLivro);
+            return livroPossuiCategoriaRepository.findAllByLivroId(idLivro).stream().map(LivroPossuiCategoriaResponseDTO::new).toList();
 
         }catch(Exception e){
 
@@ -61,13 +55,13 @@ public class LivroPossuiCategoriaService {
 
     }
 
-    public List<LivroPossuiCategoria> findByCategoriaId(Long idCategoria){
+    public List<LivroPossuiCategoriaResponseDTO> findByCategoriaId(Long idCategoria){
 
         try{
 
             categoriaService.findById(idCategoria);
 
-            return livroPossuiCategoriaRepository.findByCategoriaId(idCategoria);
+            return livroPossuiCategoriaRepository.findAllByCategoriaId(idCategoria).stream().map(LivroPossuiCategoriaResponseDTO::new).toList();
 
         }catch(Exception e){
 
@@ -79,31 +73,23 @@ public class LivroPossuiCategoriaService {
 
     private LivroPossuiCategoria findByLivroIdCategoriaId(Long idLivro, Long idCategoria) {
 
-        try{
+        try {
 
             Livro livro = livroService.findById(idLivro);
 
             Categoria categoria = categoriaService.findById(idCategoria);
 
-            return livroPossuiCategoriaRepository.findByLivroIdCategoriaId(livro.getId(), categoria.getId());
+            return livroPossuiCategoriaRepository.findByLivroIdAndCategoriaId(livro.getId(), categoria.getId());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
     }
 
-
     public List<LivroPossuiCategoriaResponseDTO> findAll(){
 
         return livroPossuiCategoriaRepository.findAll().stream().map(LivroPossuiCategoriaResponseDTO::new).collect(Collectors.toList());
-
-    }
-
-    public void deleteById(Long idLivro, Long idCategoria){
-
-        LivroPossuiCategoria livroPossuiCategoria = findByLivroIdCategoriaId(idLivro, idCategoria);
-        livroPossuiCategoriaRepository.deleteByLivroIdByCategoriaId(livroPossuiCategoria.getLivro().getId(), livroPossuiCategoria.getCategoria().getId());
 
     }
 
@@ -113,7 +99,7 @@ public class LivroPossuiCategoriaService {
 
         Categoria categoria = categoriaService.findById(idCategoria);
 
-        livroPossuiCategoriaRepository.deleteByLivroIdByCategoriaId(idLivro, idCategoria);
+        livroPossuiCategoriaRepository.deleteByLivroIdAndCategoriaId(idLivro, idCategoria);
 
     }
 
