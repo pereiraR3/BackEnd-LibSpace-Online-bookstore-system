@@ -13,6 +13,10 @@ target/
 .springBeans
 .sts4-cache
 
+# Ignore key files
+private_key.pem
+public_key.pem
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

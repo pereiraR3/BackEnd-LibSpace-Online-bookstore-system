@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface LivroPossuiCategoriaRepository extends JpaRepository<LivroPossuiCategoria, LivroPossuiCategoriaPK> {
 
+    void deleteByLivroIdAndCategoriaId(Long idLivro, Long idCategoria);
 
-    void deleteByLivroIdByCategoriaId(Long idLivro, Long idCategoria);
+    LivroPossuiCategoria findByLivroIdAndCategoriaId(Long idLivro, Long idCategoria);
 
-    LivroPossuiCategoria findByLivroIdCategoriaId(Long idLivro, Long idCategoria);
+    List<LivroPossuiCategoria> findAllByLivroId(Long idLivro);
 
-    List<LivroPossuiCategoria> findByCategoriaId(Long idCategoria);
-
-    List<LivroPossuiCategoria> findByLivroId(Long idLivro);
+    List<LivroPossuiCategoria> findAllByCategoriaId(Long idCategoria);
 }

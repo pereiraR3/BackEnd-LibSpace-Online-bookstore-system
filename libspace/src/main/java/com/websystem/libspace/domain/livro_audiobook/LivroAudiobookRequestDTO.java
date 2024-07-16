@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public record LivroAudiobookRequestDTO(
 
-
         // - Relativo a classe pai (Livro)
 
         @NotNull
