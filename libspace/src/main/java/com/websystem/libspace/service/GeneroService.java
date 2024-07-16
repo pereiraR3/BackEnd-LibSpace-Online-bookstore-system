@@ -1,0 +1,57 @@
+package com.websystem.libspace.service;
+
+import com.websystem.libspace.domain.genero.Genero;
+import com.websystem.libspace.domain.genero.GeneroRequestDTO;
+import com.websystem.libspace.domain.genero.GeneroResponseDTO;
+import com.websystem.libspace.domain.genero.GeneroUpdateDTO;
+import com.websystem.libspace.repository.GeneroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class GeneroService {
+
+    @Autowired
+    private GeneroRepository generoRepository;
+
+    public GeneroResponseDTO create(GeneroRequestDTO body){
+
+        Genero genero = new Genero(body);
+
+        generoRepository.save(genero);
+
+        return new GeneroResponseDTO(genero);
+
+    }
+
+    public Genero findById(Long id){
+
+        return generoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
+
+    public List<GeneroResponseDTO> findAll(){
+
+        return generoRepository.findAll().stream().map(GeneroResponseDTO::new).collect(Collectors.toList());
+
+    }
+
+    public void update(GeneroUpdateDTO updateDTO){
+
+        Genero genero  = findById(updateDTO.id());
+        genero.update(updateDTO);
+    }
+
+    public void deleteById(Long id){
+
+         Genero genero = findById(id);
+        generoRepository.deleteById(genero.getId());
+
+    }
+}
