@@ -4,6 +4,9 @@ import com.websystem.libspace.domain.livro.LivroRequestDTO;
 import com.websystem.libspace.domain.livro.LivroResponseDTO;
 import com.websystem.libspace.domain.livro.LivroUpdateDTO;
 import com.websystem.libspace.service.LivroService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +23,36 @@ public class LivroController {
     @Autowired
     private LivroService livroService;
 
+    @Operation(
+            summary = "Criação de um novo registro do tipo livro.",
+            description = "Cria um novo registro de livro com base nas informações fornecidas."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Livro criado com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
+    })
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<LivroResponseDTO> create(@RequestBody @Valid LivroRequestDTO body, UriComponentsBuilder uriComponentsBuilder){
 
         LivroResponseDTO livroResponseDTO = livroService.create(body);
 
-        var uri = uriComponentsBuilder.path("/create/{id}").buildAndExpand(livroResponseDTO.id()).toUri();
+        var uri = uriComponentsBuilder.path("/livro/{id}").buildAndExpand(livroResponseDTO.id()).toUri();
 
         return ResponseEntity.created(uri).body(livroResponseDTO);
 
     }
 
+    @Operation(
+            summary = "Listagem de um único registro do tipo livro.",
+            description = "Lista um único registro de livro com base no ID fornecido."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Livro encontrado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Livro não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> getById(@PathVariable Long id){
 
@@ -41,6 +62,15 @@ public class LivroController {
 
     }
 
+    @Operation(
+            summary = "Listagem de todos os registros do tipo livro.",
+            description = "Lista todos os registros de livro persistidos."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Livros encontrados com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Nenhum livro encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
+    })
     @GetMapping("/findAll")
     public ResponseEntity<List<LivroResponseDTO>> findAll(){
 
@@ -49,6 +79,16 @@ public class LivroController {
         return ResponseEntity.ok().body(livroResponseDTOList);
     }
 
+    @Operation(
+            summary = "Atualização de um registro do tipo livro.",
+            description = "Atualiza um registro de livro com base nas informações fornecidas."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Livro atualizado com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos."),
+            @ApiResponse(responseCode = "404", description = "Livro não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
+    })
     @PutMapping("/update")
     @Transactional
     public ResponseEntity<?> update(@RequestBody @Valid LivroUpdateDTO updateDTO){
@@ -56,9 +96,17 @@ public class LivroController {
         livroService.update(updateDTO);
 
         return ResponseEntity.noContent().build();
-
     }
 
+    @Operation(
+            summary = "Deleção de um determinado livro.",
+            description = "Realiza a deleção de um livro específico com base no ID fornecido."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Livro deletado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Livro não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
+    })
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> delete(@PathVariable Long id){
@@ -67,6 +115,4 @@ public class LivroController {
 
         return ResponseEntity.noContent().build();
     }
-
-
 }
