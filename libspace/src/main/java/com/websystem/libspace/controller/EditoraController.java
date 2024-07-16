@@ -112,7 +112,7 @@ public class EditoraController {
     @Transactional
     public ResponseEntity<?> delete(@PathVariable Long id){
 
-        editoraService.deleteId(id);
+        editoraService.deleteById(id);
 
         return ResponseEntity.noContent().build();
 

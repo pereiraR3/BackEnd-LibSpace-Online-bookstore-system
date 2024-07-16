@@ -41,49 +41,29 @@ public class LivroPossuiCategoriaService {
 
     public List<LivroPossuiCategoriaResponseDTO> findByLivroId(Long idLivro){
 
-        try{
 
-            livroService.findById(idLivro);
+        livroService.findById(idLivro);
 
-            return livroPossuiCategoriaRepository.findAllByLivroId(idLivro).stream().map(LivroPossuiCategoriaResponseDTO::new).toList();
-
-        }catch(Exception e){
-
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        }
+        return livroPossuiCategoriaRepository.findAllByLivroId(idLivro).stream().map(LivroPossuiCategoriaResponseDTO::new).toList();
 
     }
 
     public List<LivroPossuiCategoriaResponseDTO> findByCategoriaId(Long idCategoria){
 
-        try{
+        categoriaService.findById(idCategoria);
 
-            categoriaService.findById(idCategoria);
-
-            return livroPossuiCategoriaRepository.findAllByCategoriaId(idCategoria).stream().map(LivroPossuiCategoriaResponseDTO::new).toList();
-
-        }catch(Exception e){
-
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        }
+        return livroPossuiCategoriaRepository.findAllByCategoriaId(idCategoria).stream().map(LivroPossuiCategoriaResponseDTO::new).toList();
 
     }
 
     private LivroPossuiCategoria findByLivroIdCategoriaId(Long idLivro, Long idCategoria) {
 
-        try {
 
-            Livro livro = livroService.findById(idLivro);
+        Livro livro = livroService.findById(idLivro);
 
-            Categoria categoria = categoriaService.findById(idCategoria);
+        Categoria categoria = categoriaService.findById(idCategoria);
 
-            return livroPossuiCategoriaRepository.findByLivroIdAndCategoriaId(livro.getId(), categoria.getId());
-
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        return livroPossuiCategoriaRepository.findByLivroIdAndCategoriaId(livro.getId(), categoria.getId());
 
     }
 

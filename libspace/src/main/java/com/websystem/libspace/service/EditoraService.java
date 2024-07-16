@@ -41,23 +41,15 @@ public class EditoraService {
 
     public void update(EditoraUpdateDTO updateDTO){
 
-        try{
-            Editora editora = findById(updateDTO.id());
-            editora.update(updateDTO);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+       Editora editora = findById(updateDTO.id());
+       editora.update(updateDTO);
 
     }
 
-    public void deleteId(Long id){
+    public void deleteById(Long id){
 
-        try{
-            Editora editora = findById(id);
-            editoraRepository.deleteById(id);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        Editora editora = findById(id);
+        editoraRepository.deleteById(id);
 
     }
 
