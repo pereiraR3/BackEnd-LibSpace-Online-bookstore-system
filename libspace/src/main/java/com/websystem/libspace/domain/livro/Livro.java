@@ -1,5 +1,6 @@
 package com.websystem.libspace.domain.livro;
 
+import com.websystem.libspace.components.CreateTableOferta;
 import com.websystem.libspace.domain.editora.Editora;
 import com.websystem.libspace.domain.livro_ebook.LivroEbook;
 import com.websystem.libspace.domain.livro_fisico.LivroFisico;
@@ -14,6 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(CreateTableOferta.class)
 public class Livro {
 
     @Id
