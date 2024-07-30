@@ -28,6 +28,7 @@ public record LivroRequestDTO(
     Short ano_publicacao,
 
     @NotBlank
+    @Size(max = 1000)
     String capa_url
 
 ) {

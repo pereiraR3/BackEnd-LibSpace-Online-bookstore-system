@@ -4,11 +4,7 @@ public record UserResponseDTO(
 
         Long id,
 
-        String cpf,
-
         String username,
-
-        String password,
 
         String email,
 
@@ -25,9 +21,7 @@ public record UserResponseDTO(
     public UserResponseDTO(User user){
        this(
                user.getId(),
-               user.getCpf(),
                user.getUsername(),
-               user.getPassword(),
                user.getEmail(),
                user.getUrl_foto(),
                user.getUrl_website(),

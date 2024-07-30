@@ -1,10 +1,7 @@
 package com.websystem.libspace.service;
 
 import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro_audiobook.LivroAudiobook;
-import com.websystem.libspace.domain.livro_audiobook.LivroAudiobookRequestDTO;
-import com.websystem.libspace.domain.livro_audiobook.LivroAudiobookResponseDTO;
-import com.websystem.libspace.domain.livro_audiobook.LivroAudiobookUpdateDTO;
+import com.websystem.libspace.domain.livro_audiobook.*;
 import com.websystem.libspace.repository.LivroAudiobookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +21,9 @@ public class LivroAudiobookService {
 
     @Autowired
     private LivroService livroService;
+
+    @Autowired
+    private LivroAudiobookMapper audiobookMapper;
 
     public LivroAudiobookResponseDTO create(LivroAudiobookRequestDTO  body){
 
@@ -50,10 +50,10 @@ public class LivroAudiobookService {
     }
 
 
-    public void update(LivroAudiobookUpdateDTO body){
+    public void update(LivroAudiobookUpdateDTO updateDTO){
 
-        LivroAudiobook livroAudiobook = findById(body.id_livro());
-        livroAudiobook.update(body);
+        LivroAudiobook livroAudiobook = findById(updateDTO.id_livro());
+        audiobookMapper.updateLivroAudibookDTO(updateDTO, livroAudiobook);
 
     }
 

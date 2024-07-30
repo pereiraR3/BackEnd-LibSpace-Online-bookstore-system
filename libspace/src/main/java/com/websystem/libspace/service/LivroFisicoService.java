@@ -1,10 +1,7 @@
 package com.websystem.libspace.service;
 
 import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro_fisico.LivroFisico;
-import com.websystem.libspace.domain.livro_fisico.LivroFisicoRequestDTO;
-import com.websystem.libspace.domain.livro_fisico.LivroFisicoResponseDTO;
-import com.websystem.libspace.domain.livro_fisico.LivroFisicoUpdateDTO;
+import com.websystem.libspace.domain.livro_fisico.*;
 import com.websystem.libspace.repository.LivroFisicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +18,9 @@ public class LivroFisicoService {
 
     @Autowired
     private LivroService livroService;
+
+    @Autowired
+    private LivroFisicoMapper livroFisicoMapper;
 
     public LivroFisicoResponseDTO create(LivroFisicoRequestDTO body){
 
@@ -44,10 +44,10 @@ public class LivroFisicoService {
         return livroFisicoRepository.findAll().stream().map(LivroFisicoResponseDTO::new).toList();
     }
 
-    public void update(LivroFisicoUpdateDTO body){
+    public void update(LivroFisicoUpdateDTO updateDTO){
 
-        LivroFisico livroFisico = findById(body.id_livro());
-        livroFisico.update(body);
+        LivroFisico livroFisico = findById(updateDTO.id_livro());
+        livroFisicoMapper.updateLivroFisicoMapper(updateDTO, livroFisico);
 
     }
 

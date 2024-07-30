@@ -16,6 +16,9 @@ public class EditoraService {
     @Autowired
     private EditoraRepository editoraRepository;
 
+    @Autowired
+    private EditoraMapper editoraMapper;
+
     public EditoraResponseDTO create(EditoraRequestDTO body){
 
         Editora editora = new Editora(body);
@@ -41,23 +44,15 @@ public class EditoraService {
 
     public void update(EditoraUpdateDTO updateDTO){
 
-        try{
-            Editora editora = findById(updateDTO.id());
-            editora.update(updateDTO);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+       Editora editora = findById(updateDTO.id());
+       editoraMapper.updateEditoraDTO(updateDTO, editora);
 
     }
 
-    public void deleteId(Long id){
+    public void deleteById(Long id){
 
-        try{
-            Editora editora = findById(id);
-            editoraRepository.deleteById(id);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        Editora editora = findById(id);
+        editoraRepository.deleteById(id);
 
     }
 

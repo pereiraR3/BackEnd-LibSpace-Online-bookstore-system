@@ -2,7 +2,8 @@
 CREATE TABLE livro (
     id BIGSERIAL PRIMARY KEY,
     id_editora BIGINT,
-    preco MONEY NOT NULL,
+    preco_unitario MONEY NOT NULL,
+    preco_acumulado MONEY NOT NULL,
     titulo VARCHAR(120) NOT NULL,
     quantidade SMALLINT NOT NULL,
     autor_nome VARCHAR(160) NOT NULL,

@@ -1,7 +1,10 @@
 package com.websystem.libspace.domain.editora;
 
+import com.websystem.libspace.domain.livro.Livro;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "editora")
@@ -33,6 +36,9 @@ public class Editora {
 
     private String url_website;
 
+    @OneToMany(mappedBy = "editora")
+    private Set<Livro> livros;
+
     public Editora(EditoraRequestDTO body){
 
         this.nome = body.nome();
@@ -44,19 +50,4 @@ public class Editora {
 
     }
 
-    public void update(EditoraUpdateDTO updateDTO) {
-
-        if(updateDTO.nome() != null)
-            this.nome = updateDTO.nome();
-
-        if(updateDTO.cep() != null)
-            this.cep = updateDTO.cep();
-
-        if(updateDTO.telefone() != null)
-            this.telefone = updateDTO.telefone();
-
-        if(updateDTO.email() != null)
-            this.email = updateDTO.email();
-
-    }
 }

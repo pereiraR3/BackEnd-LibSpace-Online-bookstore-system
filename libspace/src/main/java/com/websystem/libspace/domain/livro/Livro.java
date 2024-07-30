@@ -1,10 +1,16 @@
 package com.websystem.libspace.domain.livro;
 
+import com.websystem.libspace.functions.CreateTableOferta;
+import com.websystem.libspace.domain.avaliacao.Avaliacao;
+import com.websystem.libspace.domain.categoria.Categoria;
 import com.websystem.libspace.domain.editora.Editora;
+import com.websystem.libspace.domain.genero.Genero;
 import com.websystem.libspace.domain.livro_ebook.LivroEbook;
 import com.websystem.libspace.domain.livro_fisico.LivroFisico;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "livro")
@@ -14,6 +20,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(CreateTableOferta.class)
 public class Livro {
 
     @Id
@@ -48,6 +55,25 @@ public class Livro {
     @OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
     private LivroFisico livroFisico;
 
+    @ManyToMany
+    @JoinTable(
+            name = "livro_possui_categoria",
+            joinColumns = @JoinColumn(name = "id_livro"),
+            inverseJoinColumns = @JoinColumn(name = "id_categoria")
+    )
+    private Set<Categoria> categorias;
+
+    @ManyToMany
+    @JoinTable(
+            name = "livro_possui_genero",
+            joinColumns = @JoinColumn(name = "id_livro"),
+            inverseJoinColumns = @JoinColumn(name = "id_genero")
+    )
+    private Set<Genero> generos;
+
+    @OneToMany
+    private Set<Avaliacao> avaliacoes;
+
     public Livro(LivroRequestDTO body, Editora editora){
         this.editora = editora;
         this.preco = body.preco();
@@ -58,19 +84,4 @@ public class Livro {
         this.capa_url = body.capa_url();
     }
 
-    public void update(LivroUpdateDTO updateDTO) {
-
-        if(updateDTO.preco() != null)
-            this.preco = updateDTO.preco();
-
-        if(updateDTO.quantidade() != null)
-            this.quantidade = updateDTO.quantidade();
-
-        if(updateDTO.autor_nome() != null)
-            this.autor_nome = updateDTO.autor_nome();
-
-        if(updateDTO.ano_publicacao() != null)
-            this.ano_publicacao = updateDTO.ano_publicacao();
-
-    }
 }

@@ -1,4 +1,4 @@
-package com.websystem.libspace.domain.livro_possui_categoria;
+package com.websystem.libspace.domain.avaliacao;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -8,22 +8,22 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class LivroPossuiCategoriaPK implements Serializable {
+public class AvaliacaoPK implements Serializable {
 
+    private Long id;
     private Long livro;
-    private Long categoria;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LivroPossuiCategoriaPK that = (LivroPossuiCategoriaPK) o;
-        return Objects.equals(livro, that.livro) && Objects.equals(categoria, that.categoria);
+        AvaliacaoPK that = (AvaliacaoPK) o;
+        return Objects.equals(id, that.id) && Objects.equals(livro, that.livro);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(livro, categoria);
+        return Objects.hash(id, livro);
     }
 
 }
