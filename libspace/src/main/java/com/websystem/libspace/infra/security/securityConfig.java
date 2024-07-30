@@ -38,8 +38,84 @@ public class securityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll()
+                        auth -> auth
+
+                                // Controller -> AuthenticationController
+
+                                .requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll()
+
+                                // Controller -> AvaliacaoController
+
+                                .requestMatchers(HttpMethod.POST, "/avaliacao/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/avaliacao/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/avaliacao/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/avaliacao/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/avaliacao/{id}").permitAll()
+
+                                // Controller -> CategoriaController
+
+                                .requestMatchers(HttpMethod.POST, "/categoria/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/categoria/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/categoria/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/categoria/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/categoria/{id}").permitAll()
+
+                                // Controller -> EditoraController
+
+                                .requestMatchers(HttpMethod.POST, "/editora/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/editora/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/editora/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/editora/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/editora/{id}").permitAll()
+
+                                // Controller -> GeneroController
+
+                                .requestMatchers(HttpMethod.POST, "/genero/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/genero/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/genero/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/genero/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/genero/{id}").permitAll()
+
+                                // Controller -> LivroAudioBookController
+
+                                .requestMatchers(HttpMethod.POST, "/livro_audiobook/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro_audiobook/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro_audiobook/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/livro_audiobook/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/livro_audiobook/{id}").permitAll()
+
+                                // Controller -> LivroController
+
+                                .requestMatchers(HttpMethod.POST, "/livro/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/livro/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/livro/{id}").permitAll()
+
+                                // Controller -> LivroEbookController
+
+                                .requestMatchers(HttpMethod.POST, "/livro_ebook/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro_ebook/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro_ebook/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/livro_ebook/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/livro_ebook/{id}").permitAll()
+
+                                // Controller -> LivroFisicoController
+
+                                .requestMatchers(HttpMethod.POST, "/livro_fisico/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro_fisico/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/livro_fisico/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/livro_fisico/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/livro_fisico/{id}").permitAll()
+
+                                // Controller -> UserController
+
                                 .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/user/update").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/user/{id}").permitAll()
+
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

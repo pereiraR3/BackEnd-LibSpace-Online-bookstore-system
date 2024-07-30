@@ -34,7 +34,6 @@ public class Oferta {
     @Column(name = "desconto", nullable = true)
     private double desconto;
 
-
     public Oferta(Livro livro, Editora editora){
         this.editora = editora;
         this.livro = livro;

@@ -1,10 +1,7 @@
 package com.websystem.libspace.service;
 
 import com.websystem.libspace.domain.editora.Editora;
-import com.websystem.libspace.domain.livro.Livro;
-import com.websystem.libspace.domain.livro.LivroRequestDTO;
-import com.websystem.libspace.domain.livro.LivroResponseDTO;
-import com.websystem.libspace.domain.livro.LivroUpdateDTO;
+import com.websystem.libspace.domain.livro.*;
 import com.websystem.libspace.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +19,9 @@ public class LivroService {
 
     @Autowired
     private EditoraService editoraService;
+
+    @Autowired
+    private LivroMapper livroMapper;
 
     public LivroResponseDTO create(LivroRequestDTO body){
 
@@ -50,7 +50,7 @@ public class LivroService {
     public void update(LivroUpdateDTO updateDTO){
 
         Livro livro = findById(updateDTO.id());
-        livro.update(updateDTO);
+        livroMapper.updateLivroFromDTO(updateDTO, livro);
 
     }
 
