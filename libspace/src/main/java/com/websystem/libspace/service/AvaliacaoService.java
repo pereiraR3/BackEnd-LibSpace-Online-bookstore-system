@@ -1,9 +1,6 @@
 package com.websystem.libspace.service;
 
-import com.websystem.libspace.domain.avaliacao.Avaliacao;
-import com.websystem.libspace.domain.avaliacao.AvaliacaoRequestDTO;
-import com.websystem.libspace.domain.avaliacao.AvaliacaoResponseDTO;
-import com.websystem.libspace.domain.avaliacao.AvaliacaoUpdateDTO;
+import com.websystem.libspace.domain.avaliacao.*;
 import com.websystem.libspace.domain.livro.Livro;
 import com.websystem.libspace.domain.users.User;
 import com.websystem.libspace.repository.AvaliacaoRepository;
@@ -24,6 +21,9 @@ public class AvaliacaoService {
 
     @Autowired
     private LivroService livroService;
+
+    @Autowired
+    private AvaliacaoMapper avaliacaoMapper;
 
     public AvaliacaoResponseDTO create(AvaliacaoRequestDTO body){
 
@@ -55,7 +55,7 @@ public class AvaliacaoService {
     public void update(AvaliacaoUpdateDTO updateDTO){
 
         Avaliacao avaliacao = findById(updateDTO.id());
-        avaliacao.update(updateDTO);
+        avaliacaoMapper.updateAvaliacaoDTO(updateDTO, avaliacao);
 
     }
 

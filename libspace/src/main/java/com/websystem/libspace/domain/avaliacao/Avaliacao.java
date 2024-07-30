@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "editora")
@@ -14,12 +15,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@IdClass(AvaliacaoPK.class)
 public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_livro", nullable = false)
     private Livro livro;
@@ -44,11 +47,5 @@ public class Avaliacao {
         this.comentario = body.comentario();
     }
 
-    public void update(AvaliacaoUpdateDTO updateDTO){
-        if(updateDTO.comentario() != null)
-            this.comentario = updateDTO.comentario();
-        if(updateDTO.nota() != null)
-            this.nota = updateDTO.nota();
-    }
 
 }

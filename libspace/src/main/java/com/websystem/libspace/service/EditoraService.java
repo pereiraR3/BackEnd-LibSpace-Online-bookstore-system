@@ -16,6 +16,9 @@ public class EditoraService {
     @Autowired
     private EditoraRepository editoraRepository;
 
+    @Autowired
+    private EditoraMapper editoraMapper;
+
     public EditoraResponseDTO create(EditoraRequestDTO body){
 
         Editora editora = new Editora(body);
@@ -42,7 +45,7 @@ public class EditoraService {
     public void update(EditoraUpdateDTO updateDTO){
 
        Editora editora = findById(updateDTO.id());
-       editora.update(updateDTO);
+       editoraMapper.updateEditoraDTO(updateDTO, editora);
 
     }
 

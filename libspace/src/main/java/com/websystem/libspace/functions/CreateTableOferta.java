@@ -1,4 +1,4 @@
-package com.websystem.libspace.components;
+package com.websystem.libspace.functions;
 
 import com.websystem.libspace.domain.livro.Livro;
 import com.websystem.libspace.domain.oferta.Oferta;
@@ -6,8 +6,6 @@ import com.websystem.libspace.repository.OfertaRepository;
 import jakarta.persistence.PostPersist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class CreateTableOferta {

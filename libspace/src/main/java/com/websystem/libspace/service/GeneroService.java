@@ -1,9 +1,6 @@
 package com.websystem.libspace.service;
 
-import com.websystem.libspace.domain.genero.Genero;
-import com.websystem.libspace.domain.genero.GeneroRequestDTO;
-import com.websystem.libspace.domain.genero.GeneroResponseDTO;
-import com.websystem.libspace.domain.genero.GeneroUpdateDTO;
+import com.websystem.libspace.domain.genero.*;
 import com.websystem.libspace.repository.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +15,9 @@ public class GeneroService {
 
     @Autowired
     private GeneroRepository generoRepository;
+
+    @Autowired
+    private GeneroMapper generoMapper;
 
     public GeneroResponseDTO create(GeneroRequestDTO body){
 
@@ -45,7 +45,8 @@ public class GeneroService {
     public void update(GeneroUpdateDTO updateDTO){
 
         Genero genero  = findById(updateDTO.id());
-        genero.update(updateDTO);
+        generoMapper.updateGeneroDTO(updateDTO, genero);
+
     }
 
     public void deleteById(Long id){

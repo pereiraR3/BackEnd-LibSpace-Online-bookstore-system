@@ -1,7 +1,10 @@
 package com.websystem.libspace.domain.genero;
 
+import com.websystem.libspace.domain.livro.Livro;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "genero")
@@ -19,13 +22,11 @@ public class Genero {
     @Column(name = "nome", nullable = false, unique = true)
     private String nome;
 
+    @ManyToMany(mappedBy = "generos")
+    private Set<Livro> livros;
+
     public Genero (GeneroRequestDTO body){
         this.nome = body.nome();
-    }
-
-    public void update(GeneroUpdateDTO requestDTO){
-        if(requestDTO.nome() != null)
-            this.nome = requestDTO.nome();
     }
 
 }

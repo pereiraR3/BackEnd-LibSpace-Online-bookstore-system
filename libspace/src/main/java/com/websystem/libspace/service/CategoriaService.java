@@ -1,12 +1,10 @@
 package com.websystem.libspace.service;
 
-import com.websystem.libspace.domain.categoria.Categoria;
-import com.websystem.libspace.domain.categoria.CategoriaRequestDTO;
-import com.websystem.libspace.domain.categoria.CategoriaResponseDTO;
-import com.websystem.libspace.domain.categoria.CategoriaUpdateDTO;
+import com.websystem.libspace.domain.categoria.*;
 import com.websystem.libspace.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.method.AuthorizeReturnObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +16,9 @@ public class CategoriaService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private CategoriaMapper categoriaMapper;
 
     public CategoriaResponseDTO create(CategoriaRequestDTO body){
 
@@ -44,7 +45,7 @@ public class CategoriaService {
     public void update(CategoriaUpdateDTO updateDTO){
 
         Categoria categoria = findById(updateDTO.id());
-        categoria.update(updateDTO);
+        categoriaMapper.updateCategoriaDTO(updateDTO, categoria);
 
     }
 

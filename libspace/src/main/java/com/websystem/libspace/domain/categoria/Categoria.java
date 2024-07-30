@@ -1,10 +1,13 @@
 package com.websystem.libspace.domain.categoria;
 
+import com.websystem.libspace.domain.livro.Livro;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "editora")
+@Table(name = "categoria")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,13 +22,12 @@ public class Categoria {
     @Column(name = "nome", nullable = false, unique = true)
     private String nome;
 
+    @ManyToMany(mappedBy = "categorias")
+    private Set<Livro> livros;
+
     public Categoria(CategoriaRequestDTO body){
         this.nome = body.nome();
     }
 
-    public void update(CategoriaUpdateDTO updateDTO){
-        if(updateDTO.nome() != null)
-            this.nome = updateDTO.nome();
-    }
 
 }
