@@ -1,5 +1,7 @@
 package com.websystem.libspace.domain.carrinho;
 
+import com.websystem.libspace.domain.impostos.Impostos;
+
 import java.time.LocalDate;
 
 public record CarrinhoResponseDTO(
