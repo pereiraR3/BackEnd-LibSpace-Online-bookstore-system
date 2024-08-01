@@ -11,7 +11,7 @@ public record LivroRequestDTO(
     Long id_editora,
 
     @NotNull
-    Double preco,
+    Double preco_unitario,
 
     @NotBlank
     @Size(max = 120)

@@ -1,5 +1,6 @@
 package com.websystem.libspace.domain.genero;
 
+import com.websystem.libspace.domain.categoria.Categoria;
 import com.websystem.libspace.domain.livro.Livro;
 import jakarta.persistence.*;
 import lombok.*;

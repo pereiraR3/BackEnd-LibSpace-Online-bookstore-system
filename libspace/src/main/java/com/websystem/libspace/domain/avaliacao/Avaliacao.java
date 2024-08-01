@@ -6,15 +6,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
-@Table(name = "editora")
+@Table(name = "avaliacao")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 @IdClass(AvaliacaoPK.class)
 public class Avaliacao {
 

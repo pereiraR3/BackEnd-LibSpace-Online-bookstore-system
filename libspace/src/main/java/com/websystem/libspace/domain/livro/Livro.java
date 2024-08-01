@@ -1,5 +1,6 @@
 package com.websystem.libspace.domain.livro;
 
+import com.websystem.libspace.domain.impostos.Impostos;
 import com.websystem.libspace.functions.CreateTableOferta;
 import com.websystem.libspace.domain.avaliacao.Avaliacao;
 import com.websystem.libspace.domain.categoria.Categoria;
@@ -32,7 +33,10 @@ public class Livro {
     private Editora editora;
 
     @Column(nullable = false)
-    private Double preco;
+    private Double preco_unitario;
+
+    @Column(nullable = false)
+    private Double preco_acumulado;
 
     @Column(nullable = false)
     private String titulo;
@@ -71,12 +75,21 @@ public class Livro {
     )
     private Set<Genero> generos;
 
+    @ManyToMany
+    @JoinTable(
+            name = "impostos_pertencem_a_livro",
+            joinColumns = @JoinColumn(name = "id_livro"),
+            inverseJoinColumns = @JoinColumn(name = "id_impostos")
+    )
+    private Set<Impostos> impostos;
+
     @OneToMany
     private Set<Avaliacao> avaliacoes;
 
     public Livro(LivroRequestDTO body, Editora editora){
         this.editora = editora;
-        this.preco = body.preco();
+        this.preco_unitario = body.preco_unitario();
+        this.preco_acumulado = null;
         this.titulo = body.titulo();
         this.quantidade = body.quantidade();
         this.autor_nome = body.autor_nome();

@@ -6,7 +6,9 @@ public record LivroResponseDTO(
 
         Long id_editora,
 
-        Double preco,
+        Double preco_unitario,
+
+        Double preco_acumulado,
 
         String titulo,
 
@@ -25,7 +27,8 @@ public record LivroResponseDTO(
         this(
                 dadosLivro.getId(),
                 dadosLivro.getEditora().getId(),
-                dadosLivro.getPreco(),
+                dadosLivro.getPreco_unitario(),
+                dadosLivro.getPreco_acumulado(),
                 dadosLivro.getTitulo(),
                 dadosLivro.getQuantidade(),
                 dadosLivro.getAutor_nome(),
