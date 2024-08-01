@@ -1,10 +1,12 @@
 package com.websystem.libspace.domain.carrinho;
 
+import com.websystem.libspace.domain.item_carrinho.ItemCarrinho;
 import com.websystem.libspace.domain.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "carrinho")
@@ -29,9 +31,11 @@ public class Carrinho {
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 
+    @OneToMany(mappedBy = "carrinho")
+    private Set<ItemCarrinho> itemCarrinhos;
+
     public Carrinho(CarrinhoRequestDTO body, User user){
         this.status = body.status();
-        this.data_criacao = body.data_criacao();
         this.user = user;
     }
 

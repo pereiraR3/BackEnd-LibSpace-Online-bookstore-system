@@ -18,7 +18,7 @@ public record LivroListeningDTO(
 
         String capa_url,
 
-        LivroFisicoResponseDTO formatoFisico
+        LivroFisicoResponseDTO livroFisicoResponseDTO
 
 ) {
 }

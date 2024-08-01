@@ -3,6 +3,7 @@ package com.websystem.libspace.infra.security;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import io.swagger.v3.oas.models.PathItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
-public class securityConfig {
+public class SecurityConfig {
 
     @Value("${jwt.public.key}")
     private RSAPublicKey key;
@@ -115,6 +116,22 @@ public class securityConfig {
                                 .requestMatchers(HttpMethod.GET, "/user/findAll").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/user/update").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/user/{id}").permitAll()
+
+                                // Controller -> CarrinhoController
+
+                                .requestMatchers(HttpMethod.POST, "/carrinho/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/carrinho/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/carrinho/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/carrinho/findAll").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/carrinho/{id}").permitAll()
+
+                                // Controller -> ItemCarrinhoController
+
+                                .requestMatchers(HttpMethod.POST, "/item_carrinho/create").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/item_carrinho/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/item_carrinho/findAll").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/item_carrinho/findAll").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/item_carrinho/{id}").permitAll()
 
                                 .anyRequest().authenticated()
                 )

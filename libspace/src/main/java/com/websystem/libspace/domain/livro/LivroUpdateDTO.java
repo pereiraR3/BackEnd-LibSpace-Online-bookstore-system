@@ -8,7 +8,9 @@ public record LivroUpdateDTO(
         @NotNull
         Long id,
 
-        Double preco,
+        Double preco_unitario,
+
+        Double preco_acumulado,
 
         @Size(max = 120)
         String titulo,
