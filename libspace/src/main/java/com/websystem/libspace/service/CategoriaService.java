@@ -32,7 +32,7 @@ public class CategoriaService {
 
     public Categoria findById(Long id){
 
-        return categoriaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return categoriaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada."));
 
     }
 

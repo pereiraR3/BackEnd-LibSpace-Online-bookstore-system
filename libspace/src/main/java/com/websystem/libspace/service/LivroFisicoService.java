@@ -36,7 +36,7 @@ public class LivroFisicoService {
 
     public LivroFisico findById(Long id){
 
-        return livroFisicoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return livroFisicoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "LivroFisico não encontrado."));
 
     }
 

@@ -39,7 +39,7 @@ public class LivroEbookService {
 
     public LivroEbook findById(Long id){
 
-        return livroEbookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return livroEbookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "LivroEbook não encontrado."));
 
     }
 

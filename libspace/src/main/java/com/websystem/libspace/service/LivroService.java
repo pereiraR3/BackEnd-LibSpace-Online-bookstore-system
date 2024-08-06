@@ -10,13 +10,15 @@ import com.websystem.libspace.domain.impostos.ImpostosResponseDTO;
 import com.websystem.libspace.domain.livro.*;
 import com.websystem.libspace.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class LivroService {
@@ -54,36 +56,40 @@ public class LivroService {
      */
     public Livro findById(Long id){
 
-        return livroRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Optional<Livro> livroOptinal = Optional.ofNullable(livroRepository.findById(id));
+        return livroOptinal.orElseGet(() -> livroOptinal.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
 
     }
 
     /**
-     * Listagem de todos os livros com apenas os seus atributos
+     * Listagem paginada de todos os livros com apenas os seus atributos
      * @return List<LivroResponseDTO>
      */
-    public List<LivroResponseDTO> findAll(){
+    public Page<LivroResponseDTO> findAll(Pageable pageable) {
+        Page<Livro> livroPage = livroRepository.findAll(pageable);
+        List<LivroResponseDTO> livroResponseDTOList = livroPage.stream()
+                .map(LivroResponseDTO::new)
+                .collect(Collectors.toList());
 
-        return livroRepository.findAll().stream().map(LivroResponseDTO::new).collect(Collectors.toList());
-
+        return new PageImpl<>(livroResponseDTOList, pageable, livroPage.getTotalElements());
     }
 
     /**
-     * Listagem de todos os livros com os seus devidos impostos
-     * @return List<LivroImpostosListeningDTO>
+     * Listagem paginada de todos os livros com os seus devidos impostos
+     * @return Page<LivroImpostosListeningDTO>
      */
-    public List<LivroImpostosListeningDTO> findByAllLivroWithImpostos(){
+    public Page<LivroImpostosListeningDTO> findByAllLivroWithImpostos(Pageable pageable){
 
-        List<Object[]> results = livroRepository.getLivroWithImpostos();
+        Page<Livro> results = livroRepository.findAll(pageable);
 
         Map<Livro, List<Impostos>> livroListMap = results
                 .stream()
                 .collect(Collectors.groupingBy(
-                        result -> (Livro) result[0],
-                        Collectors.mapping(result -> (Impostos) result[1], Collectors.toList())
+                        result -> result,
+                        Collectors.mapping(result -> (Impostos) result.getImpostos(), Collectors.toList())
                 ));
 
-        return livroListMap.entrySet()
+        List<LivroImpostosListeningDTO> livros = livroListMap.entrySet()
                 .stream()
                 .map(obj -> new LivroImpostosListeningDTO(
                         obj.getKey().getId(),
@@ -96,6 +102,8 @@ public class LivroService {
                         )
                 ).collect(Collectors.toList());
 
+        return new PageImpl<>(livros, pageable, results.getTotalElements());
+
     }
 
     /**
@@ -105,38 +113,37 @@ public class LivroService {
      */
     public LivroImpostosListeningDTO findByLivroWithImpostos(Long idLivro) {
 
-        Object[] results = livroRepository.getOnlyLivroWithImpostos(idLivro);
+        Livro results = (Livro) livroRepository.findById(idLivro);
 
-        Livro livro = (Livro) results[0];
-        List<Impostos> impostosList = (List<Impostos>) results[1];
+        List<Impostos> impostosList = (List<Impostos>) results.getImpostos().stream().toList();
 
         return new LivroImpostosListeningDTO(
-                livro.getId(),
-                livro.getEditora().getId(),
-                livro.getPreco_unitario(),
-                livro.getPreco_acumulado(),
-                livro.getTitulo(),
-                livro.getQuantidade(),
+                results.getId(),
+                results.getEditora().getId(),
+                results.getPreco_unitario(),
+                results.getPreco_acumulado(),
+                results.getTitulo(),
+                results.getQuantidade(),
                 impostosList.stream().map(ImpostosResponseDTO::new).collect(Collectors.toList())
         );
     }
 
     /**
-     * Listagem de todos os livros com as suas devidas categorias
-     * @return List<LivroCategoriaListeningDTO>
+     * Listagem paginada de todos os livros com as suas devidas categorias
+     * @return Page<LivroCategoriaListeningDTO>
      */
-    public List<LivroCategoriaListeningDTO> getLivroWithCategorias(){
+    public Page<LivroCategoriaListeningDTO> findAllLivroWithCategorias(Pageable pageable){
 
-        List<Object[]> results = livroRepository.getLivroWithCategorias();
+        Page<Livro> results = livroRepository.findAll(pageable);
 
         Map<Livro, List<Categoria>> livroListMap = results
                 .stream()
                 .collect(Collectors.groupingBy(
-                                result -> (Livro) result[0],
-                                Collectors.mapping(result -> (Categoria) result[1], Collectors.toList())
+                                result -> (Livro) result,
+                                Collectors.mapping(result -> (Categoria) result.getCategorias(), Collectors.toList())
                         ));
 
-        return livroListMap.entrySet()
+        List<LivroCategoriaListeningDTO> listeningDTOS = livroListMap.entrySet()
                 .stream()
                 .map(obj -> new LivroCategoriaListeningDTO(
                         obj.getKey().getId(),
@@ -147,7 +154,10 @@ public class LivroService {
                         obj.getKey().getQuantidade(),
                         obj.getValue().stream()
                                 .map(CategoriaResponseDTO::new).toList()
-                )).collect(Collectors.toList());
+                )).toList();
+
+        return new PageImpl<>(listeningDTOS, pageable, results.getTotalElements());
+
     }
 
     /**
@@ -155,20 +165,18 @@ public class LivroService {
      * @param idLivro
      * @return LivroCategoriaListeningDTO
      */
-    public LivroCategoriaListeningDTO getOnlyLivroWithCategorias(Long idLivro){
+    public LivroCategoriaListeningDTO findOnlyLivroWithCategorias(Long idLivro){
 
-        Object[] results = livroRepository.getOnlyLivroWithCategorias(idLivro);
-
-        Livro livro = (Livro) results[0];
-        List<Categoria> categorias = (List<Categoria>) results[1];
+        Livro results = livroRepository.findById(idLivro);
+        List<Categoria> categorias = results.getCategorias().stream().toList();
 
         return new LivroCategoriaListeningDTO(
-                livro.getId(),
-                livro.getEditora().getId(),
-                livro.getPreco_unitario(),
-                livro.getPreco_acumulado(),
-                livro.getTitulo(),
-                livro.getQuantidade(),
+                results.getId(),
+                results.getEditora().getId(),
+                results.getPreco_unitario(),
+                results.getPreco_acumulado(),
+                results.getTitulo(),
+                results.getQuantidade(),
                 categorias.stream().map(CategoriaResponseDTO::new).toList()
         );
 
@@ -176,18 +184,18 @@ public class LivroService {
 
     /**
      * Listagem de todos os livros e todos os seus respectivos generos associados
-     * @return List<LivroWithGenerosListeningDTO>
+     * @return Page<LivroWithGenerosListeningDTO>
      */
-    public List<LivroWithGenerosListeningDTO> getLivroWithGeneros(){
+    public Page<LivroWithGenerosListeningDTO> findAllLivroWithGeneros(Pageable pageable){
 
-        List<Object[]> results = livroRepository.getLivroWithGeneros();
+        Page<Livro> results = livroRepository.findAll(pageable);
 
         Map<Livro, List<Genero>> livroListMap = results
                 .stream()
-                .collect(Collectors.groupingBy(result -> (Livro) result[0],
-                        Collectors.mapping(result -> (Genero) result[1], Collectors.toList())));
+                .collect(Collectors.groupingBy(result -> (Livro) result,
+                        Collectors.mapping(result -> (Genero) result.getGeneros(), Collectors.toList())));
 
-        return livroListMap.entrySet()
+        List<LivroWithGenerosListeningDTO> livroWithGenerosListeningDTOList = livroListMap.entrySet()
                 .stream().map(obj -> new LivroWithGenerosListeningDTO(
                         obj.getKey().getId(),
                         obj.getKey().getEditora().getId(),
@@ -200,6 +208,7 @@ public class LivroService {
                                 .map(GeneroResponseDTO::new).toList()
                 )).toList();
 
+        return new PageImpl<>(livroWithGenerosListeningDTOList, pageable, results.getTotalElements());
     }
 
     /**
@@ -207,12 +216,11 @@ public class LivroService {
      * @param idLivro
      * @return LivroWithGenerosListeningDTO
      */
-    public LivroWithGenerosListeningDTO getOnlyLivroWithGeneros(Long idLivro){
+    public LivroWithGenerosListeningDTO findOnlyLivroWithGeneros(Long idLivro){
 
-        Object[] results = livroRepository.getOnlyLivroWithGeneros(idLivro);
+        Livro livro = livroRepository.findById(idLivro);
 
-        Livro livro = (Livro) results[0];
-        List<Genero> generos = (List<Genero>) results[1];
+        List<Genero> generos = (List<Genero>) livro.getGeneros().stream().toList();
 
         return new LivroWithGenerosListeningDTO(
 
@@ -230,25 +238,27 @@ public class LivroService {
     }
 
 
-    public List<LivroWithGenerosAndCategoriasListeningDTO> getAllLivroWithCategoriasWIthGeneros() {
+    /**
+     * Listagem paginada de todas as categorias e generos de cada livro
+     * @param pageable
+     * @return Page<LivroWithGenerosAndCategoriasListeningDTO>
+     */
+    public Page<LivroWithGenerosAndCategoriasListeningDTO> findAllLivroWithCategoriasWIthGeneros(Pageable pageable) {
 
-        List<Object[]> results = livroRepository.getAllLivroWithGenerosWIthCategorias();
+        Page<Livro> results = livroRepository.findAll(pageable);
 
-        // Usando dois mapas para agrupar os livros com suas categorias e gêneros
         Map<Livro, List<Genero>> livroGeneroMap = new HashMap<>();
         Map<Livro, List<Categoria>> livroCategoriaMap = new HashMap<>();
 
-        for (Object[] result : results) {
-            Livro livro = (Livro) result[0];
-            Genero genero = (Genero) result[1];
-            Categoria categoria = (Categoria) result[2];
+        for (Livro result : results) {
+            Genero genero = (Genero) result.getGeneros();
+            Categoria categoria = (Categoria) result.getCategorias();
 
-            livroGeneroMap.computeIfAbsent(livro, k -> new ArrayList<>()).add(genero);
-            livroCategoriaMap.computeIfAbsent(livro, k -> new ArrayList<>()).add(categoria);
+            livroGeneroMap.computeIfAbsent(result, k -> new ArrayList<>()).add(genero);
+            livroCategoriaMap.computeIfAbsent(result, k -> new ArrayList<>()).add(categoria);
         }
 
-        // Convertendo os mapas para uma lista de DTOs
-        return livroGeneroMap.entrySet().stream()
+        List<LivroWithGenerosAndCategoriasListeningDTO> livroWithGenerosAndCategoriasListeningDTOS = livroGeneroMap.entrySet().stream()
                 .map(entry -> new LivroWithGenerosAndCategoriasListeningDTO(
                         entry.getKey().getId(),
                         entry.getKey().getEditora().getId(),
@@ -258,10 +268,11 @@ public class LivroService {
                         entry.getKey().getQuantidade(),
                         entry.getValue().stream().map(GeneroResponseDTO::new).collect(Collectors.toList()),
                         livroCategoriaMap.getOrDefault(entry.getKey(), new ArrayList<>()).stream().map(CategoriaResponseDTO::new).collect(Collectors.toList())
-                )).collect(Collectors.toList());
+                )).toList();
+
+        return new PageImpl<>(livroWithGenerosAndCategoriasListeningDTOS, pageable, results.getTotalElements());
+
     }
-
-
 
     /**
      * Update das informações de um livro conforme o UpdateDTO usando Mapper
@@ -275,15 +286,13 @@ public class LivroService {
     }
 
     /**
-     * Deleção Relacional de um livro e seus associados
+     * Deleção relacional da entidade livro
      * @param id
      */
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
 
         Livro livro = findById(id);
-        livroRepository.deleteById(id);
+        livroRepository.deleteById(livro.getId());
 
     }
-
-
 }

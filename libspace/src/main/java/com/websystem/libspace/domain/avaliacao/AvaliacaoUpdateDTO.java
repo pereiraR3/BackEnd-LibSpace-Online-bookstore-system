@@ -1,15 +1,12 @@
 package com.websystem.libspace.domain.avaliacao;
 
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDate;
 
 public record AvaliacaoUpdateDTO(
 
         @NotNull
-        Long id,
+        Long id_livro,
 
         @NotNull
         Long id_user,

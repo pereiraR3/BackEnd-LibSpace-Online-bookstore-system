@@ -4,6 +4,7 @@ import com.websystem.libspace.domain.livro.Livro;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -37,7 +38,7 @@ public class Editora {
     private String url_website;
 
     @OneToMany(mappedBy = "editora")
-    private Set<Livro> livros;
+    private Set<Livro> livros = new HashSet<>();
 
     public Editora(EditoraRequestDTO body){
 

@@ -48,10 +48,10 @@ public class SecurityConfig {
                                 // Controller -> AvaliacaoController
 
                                 .requestMatchers(HttpMethod.POST, "/avaliacao/create").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/avaliacao/{id}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/avaliacao/Livro/{idLivro}/User/{idUser}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/avaliacao/findAll").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/avaliacao/update").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/avaliacao/{id}").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/avaliacao/Livro/{idLivro}/User/{idUser}").permitAll()
 
                                 // Controller -> CategoriaController
 

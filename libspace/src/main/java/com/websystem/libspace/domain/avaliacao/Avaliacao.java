@@ -17,14 +17,11 @@ import java.time.LocalDate;
 public class Avaliacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_livro", nullable = false)
     private Livro livro;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
@@ -44,6 +41,7 @@ public class Avaliacao {
         this.nota = body.nota();
         this.comentario = body.comentario();
     }
+
 
 
 }
