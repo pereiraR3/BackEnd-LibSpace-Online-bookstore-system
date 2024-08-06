@@ -32,7 +32,7 @@ public class EditoraService {
     public Editora findById(Long id){
 
         return editoraRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Editora não encontrada."));
 
     }
 

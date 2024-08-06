@@ -9,8 +9,6 @@ public record OfertaResponseDTO(
 
         Long id_livro,
 
-        Long id_editora,
-
         double preco_revenda,
 
         double desconto
@@ -21,7 +19,6 @@ public record OfertaResponseDTO(
         this(
                 oferta.getId(),
                 oferta.getLivro().getId(),
-                oferta.getEditora().getId(),
                 oferta.getPreco_revenda(),
                 oferta.getDesconto()
         );

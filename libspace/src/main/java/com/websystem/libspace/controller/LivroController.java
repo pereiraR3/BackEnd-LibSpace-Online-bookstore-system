@@ -1,14 +1,15 @@
 package com.websystem.libspace.controller;
 
-import com.websystem.libspace.domain.livro.LivroRequestDTO;
-import com.websystem.libspace.domain.livro.LivroResponseDTO;
-import com.websystem.libspace.domain.livro.LivroUpdateDTO;
+import com.websystem.libspace.domain.livro.*;
 import com.websystem.libspace.service.LivroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -72,12 +73,87 @@ public class LivroController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
     })
     @GetMapping("/findAll")
-    public ResponseEntity<List<LivroResponseDTO>> findAll(){
+    public ResponseEntity<Page<LivroResponseDTO>> findAll(Pageable pageable){
 
-        List<LivroResponseDTO> livroResponseDTOList = livroService.findAll();
+        Page<LivroResponseDTO> livroResponseDTOList = livroService.findAll(pageable);
 
-        return ResponseEntity.ok().body(livroResponseDTOList);
+        if(livroResponseDTOList.isEmpty())
+            return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(livroResponseDTOList);
     }
+
+    @GetMapping("/findByAllLivroWithImpostos")
+    public ResponseEntity<Page<LivroImpostosListeningDTO>> findByAllLivroWithImpostos(Pageable pageable){
+
+        Page<LivroImpostosListeningDTO> livroImpostosListeningDTO = livroService.findByAllLivroWithImpostos(pageable);
+
+        if(livroImpostosListeningDTO.isEmpty())
+            return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok().body(livroImpostosListeningDTO);
+    }
+
+    @GetMapping("/findByLivroWithImpostos/{id}")
+    public ResponseEntity<LivroImpostosListeningDTO> findByLivroWithImpostos(@PathVariable Long id){
+
+        LivroImpostosListeningDTO livroImpostosListeningDTO = livroService.findByLivroWithImpostos(id);
+
+        return ResponseEntity.ok().body(livroImpostosListeningDTO);
+    }
+
+    @GetMapping("/findAllLivroWithCategorias")
+    public ResponseEntity<Page<LivroCategoriaListeningDTO>> findAllLivroWithCategorias(Pageable pageable){
+
+        Page<LivroCategoriaListeningDTO> livroCategoriaListeningDTOS = livroService.findAllLivroWithCategorias(pageable);
+
+        if(livroCategoriaListeningDTOS.isEmpty())
+            return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok().body(livroCategoriaListeningDTOS);
+    }
+
+
+    @GetMapping("/findOnlyLivroWithCategorias/{id}")
+    public ResponseEntity<LivroCategoriaListeningDTO> findOnlyLivroWithCategorias(@PathVariable Long id){
+
+        LivroCategoriaListeningDTO livroCategoriaListeningDTO = livroService.findOnlyLivroWithCategorias(id);
+
+        return ResponseEntity.ok().body(livroCategoriaListeningDTO);
+    }
+
+    @GetMapping("/findAllLivroWithGeneros")
+    public ResponseEntity<Page<LivroWithGenerosListeningDTO>> findAllLivroWithGeneros(Pageable pageable){
+
+        Page<LivroWithGenerosListeningDTO> livroWithGenerosListeningDTOS = livroService.findAllLivroWithGeneros(pageable);
+
+        if(livroWithGenerosListeningDTOS.isEmpty())
+            return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok().body(livroWithGenerosListeningDTOS);
+    }
+
+
+    @GetMapping("/findOnlyLivroWithGeneros/{id}")
+    public ResponseEntity<LivroWithGenerosListeningDTO> findOnlyLivroWithGeneros(@PathVariable Long id){
+
+        LivroWithGenerosListeningDTO livroWithGenerosListeningDTO = livroService.findOnlyLivroWithGeneros(id);
+
+        return ResponseEntity.ok().body(livroWithGenerosListeningDTO);
+
+    }
+
+    @GetMapping("/findAllLivroWithCategoriasWIthGeneros")
+    public ResponseEntity<Page<LivroWithGenerosAndCategoriasListeningDTO>> findAllLivroWithCategoriasWIthGeneros(Pageable pageable){
+
+        Page<LivroWithGenerosAndCategoriasListeningDTO> livroWithGenerosAndCategoriasListeningDTOS = livroService.findAllLivroWithCategoriasWIthGeneros(pageable);
+
+        if(livroWithGenerosAndCategoriasListeningDTOS.isEmpty())
+            return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok().body(livroWithGenerosAndCategoriasListeningDTOS);
+    }
+
 
     @Operation(
             summary = "Atualização de um registro do tipo livro.",

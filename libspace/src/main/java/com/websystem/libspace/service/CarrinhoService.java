@@ -38,7 +38,7 @@ public class CarrinhoService {
     public Carrinho findById(Long id){
 
         return carrinhoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Carrinho não encontrado."));
 
     }
 

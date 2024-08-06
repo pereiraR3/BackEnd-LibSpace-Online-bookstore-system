@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public User findById(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User não encontrado."));
     }
 
     public List<UserResponseDTO> findAll(){

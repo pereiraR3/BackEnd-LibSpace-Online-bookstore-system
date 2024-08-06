@@ -22,7 +22,7 @@ public class OfertaService {
     private OfertaMapper ofertaMapper;
 
     public Oferta findById(Long id){
-        return ofertaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Oferta não encontrada"));
+        return ofertaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Oferta não encontrada."));
     }
 
     public List<OfertaResponseDTO> findAll(){
@@ -38,5 +38,6 @@ public class OfertaService {
         Oferta oferta = findById(id);
         ofertaRepository.deleteById(oferta.getId());
     }
+
 
 }

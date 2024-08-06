@@ -32,7 +32,7 @@ public class ImpostosService {
     public Impostos findById(Long id){
 
         return impostosRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Imposto não encontrado."));
 
     }
 

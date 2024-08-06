@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, AvaliacaoPK> {
 
+    Optional<Avaliacao> findByLivroIdAndUserId(Long idLivro, Long idUser);
 
-    Optional<Avaliacao> findById(Long id);
-
-    void deleteById(Long id);
 }

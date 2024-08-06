@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public record LivroRequestDTO(
 
-
     @NotNull
     Long id_editora,
 

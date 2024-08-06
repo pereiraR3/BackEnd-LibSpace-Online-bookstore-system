@@ -6,11 +6,13 @@ import com.websystem.libspace.domain.users.User;
 import com.websystem.libspace.repository.AvaliacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class AvaliacaoService {
 
     @Autowired
@@ -27,12 +29,11 @@ public class AvaliacaoService {
 
     public AvaliacaoResponseDTO create(AvaliacaoRequestDTO body){
 
-
         Livro livro = livroService.findById(body.id_livro());
 
         User user = userService.findById(body.id_user());
 
-        Avaliacao avaliacao = new Avaliacao(body,  livro, user);
+        Avaliacao avaliacao = new Avaliacao(body, livro, user);
 
         avaliacaoRepository.save(avaliacao);
 
@@ -40,9 +41,9 @@ public class AvaliacaoService {
 
     }
 
-    public Avaliacao findById(Long id){
+    public Avaliacao findByLivroIdAndUserId(Long idLivro, Long idUser){
 
-        return avaliacaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return avaliacaoRepository.findByLivroIdAndUserId(idLivro, idUser).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Avaliação não encontrada."));
 
     }
 
@@ -54,16 +55,15 @@ public class AvaliacaoService {
 
     public void update(AvaliacaoUpdateDTO updateDTO){
 
-        Avaliacao avaliacao = findById(updateDTO.id());
+        Avaliacao avaliacao = findByLivroIdAndUserId(updateDTO.id_livro(), updateDTO.id_user());
         avaliacaoMapper.updateAvaliacaoDTO(updateDTO, avaliacao);
 
     }
 
-    public void deleteById(Long id){
+    public void deleteByLivroIdAndUserId(Long idLivro, Long idUser){
 
-        Avaliacao avaliacao = findById(id);
-        avaliacaoRepository.deleteById(id);
-
+        Avaliacao avaliacao = findByLivroIdAndUserId(idLivro, idUser);
+        avaliacaoRepository.delete(avaliacao);
 
     }
 

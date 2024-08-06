@@ -16,6 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/avaliacao")
 public class AvaliacaoController {
 
     @Autowired
@@ -36,11 +38,11 @@ public class AvaliacaoController {
     public ResponseEntity<AvaliacaoResponseDTO> create(@RequestBody @Valid AvaliacaoRequestDTO body, UriComponentsBuilder uriComponentsBuilder){
 
         AvaliacaoResponseDTO avaliacaoResponseDTO = avaliacaoService.create(body);
-        var uri = uriComponentsBuilder.path("/create/{id}").buildAndExpand(avaliacaoResponseDTO.id()).toUri();
+        var uri = uriComponentsBuilder.path("/create/{id}").buildAndExpand(avaliacaoResponseDTO.id_livro()).toUri();
         return ResponseEntity.created(uri).body(avaliacaoResponseDTO);
     }
 
-    // EndPoint - "/avaliacao/{id}"
+    // EndPoint - "/avaliacao/Livro/{idLivro}/User/{idUser}"
     @Operation(
             summary = "Listagem de um único registro do tipo avaliação.",
             description = "Lista um único registro de avaliação com base nas informações fornecidas."
@@ -50,9 +52,9 @@ public class AvaliacaoController {
             @ApiResponse(responseCode = "404", description = "Avaliação não encontrada."),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<AvaliacaoResponseDTO> getById(@PathVariable Long id){
-        AvaliacaoResponseDTO avaliacaoResponseDTO = new AvaliacaoResponseDTO(avaliacaoService.findById(id));
+    @GetMapping("/Livro/{idLivro}/User/{idUser}")
+    public ResponseEntity<AvaliacaoResponseDTO> getById(@PathVariable Long idLivro, @PathVariable Long idUser){
+        AvaliacaoResponseDTO avaliacaoResponseDTO = new AvaliacaoResponseDTO(avaliacaoService.findByLivroIdAndUserId(idLivro, idUser));
         return ResponseEntity.ok().body(avaliacaoResponseDTO);
     }
 
@@ -67,8 +69,12 @@ public class AvaliacaoController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
     })
     @GetMapping("/findAll")
-    public ResponseEntity<List<AvaliacaoResponseDTO>> getAllCategoria(){
+    public ResponseEntity<List<AvaliacaoResponseDTO>> findAll(){
         List<AvaliacaoResponseDTO> avaliacaoResponseDTOList = avaliacaoService.findAll();
+
+        if(avaliacaoResponseDTOList.isEmpty())
+            return ResponseEntity.noContent().build();
+
         return ResponseEntity.ok().body(avaliacaoResponseDTOList);
     }
 
@@ -90,7 +96,7 @@ public class AvaliacaoController {
         return ResponseEntity.noContent().build();
     }
 
-    // EndPoint - "/avaliacao/{id}"
+    // EndPoint - "/avaliacao/Livro/{idLivro}/User/{idUser}"
     @Operation(
             summary = "Deleção relacional de uma determinada avaliação.",
             description = "Realiza a deleção relacional de uma avaliação específica com base no ID fornecido."
@@ -100,10 +106,10 @@ public class AvaliacaoController {
             @ApiResponse(responseCode = "404", description = "Avaliação não encontrada."),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/Livro/{idLivro}/User/{idUser}")
     @Transactional
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        avaliacaoService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable Long idLivro, @PathVariable Long idUser){
+        avaliacaoService.deleteByLivroIdAndUserId(idLivro, idUser);
         return ResponseEntity.noContent().build();
     }
 

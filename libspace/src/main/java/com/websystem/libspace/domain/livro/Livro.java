@@ -29,16 +29,16 @@ public class Livro {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_editora", nullable = false)
+    @JoinColumn(name = "id_editora")
     private Editora editora;
 
-    @Column(nullable = false)
+    @Column(name = "preco_unitario")
     private Double preco_unitario;
 
-    @Column(nullable = false)
+    @Column(name = "preco_acumulado")
     private Double preco_acumulado;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String titulo;
 
     @Column(nullable = false)
@@ -89,7 +89,7 @@ public class Livro {
     public Livro(LivroRequestDTO body, Editora editora){
         this.editora = editora;
         this.preco_unitario = body.preco_unitario();
-        this.preco_acumulado = null;
+        this.preco_acumulado = 0.00;
         this.titulo = body.titulo();
         this.quantidade = body.quantidade();
         this.autor_nome = body.autor_nome();

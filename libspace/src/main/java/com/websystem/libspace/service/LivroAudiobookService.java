@@ -39,7 +39,7 @@ public class LivroAudiobookService {
 
     public LivroAudiobook findById(Long id){
 
-        return livroAudiobookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return livroAudiobookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "LivroAudiobook não encontrado."));
 
     }
 

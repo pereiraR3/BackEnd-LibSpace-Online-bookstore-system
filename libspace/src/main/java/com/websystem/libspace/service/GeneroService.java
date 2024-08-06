@@ -32,7 +32,7 @@ public class GeneroService {
     public Genero findById(Long id){
 
         return generoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Genero não encontrado."));
 
     }
 
